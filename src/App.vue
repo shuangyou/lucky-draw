@@ -1,5 +1,5 @@
 <template>
-  <div id="root">
+  <div id="root" >
     <header>
       <Publicity v-show="!running" />
       <el-button class="res" type="text" @click="showResult = true">
@@ -35,7 +35,7 @@
             :key="item"
             class="itemres"
             :style="resCardStyle"
-            :data-id="item"
+            :data-id="list.find(d => d.key === item).sesaid"
             @click="showRes = false"
             :class="{
               numberOver:
@@ -46,8 +46,8 @@
             <span class="cont" v-if="!photos.find(d => d.id === item)">
               <span
                 v-if="!!list.find(d => d.key === item)"
-                :style="{
-                  fontSize: '40px'
+                 :style="{
+                  fontSize: '30px'
                 }"
               >
                 {{ list.find(d => d.key === item).name }}
@@ -94,7 +94,7 @@
     <Result :visible.sync="showResult"></Result>
 
     <span class="copy-right">
-      Copyright©zhangyongfeng5350@gmail.com
+      此抽奖程序由研发部提供技术支持。
     </span>
 
     <audio
@@ -137,12 +137,12 @@ export default {
     resCardStyle() {
       const style = { fontSize: '30px' };
       const { number } = this.config;
-      if (number < 100) {
-        style.fontSize = '100px';
-      } else if (number < 1000) {
-        style.fontSize = '80px';
-      } else if (number < 10000) {
-        style.fontSize = '60px';
+      if (number < 20) {
+        style.fontSize = '40px';
+      } else if (number < 50) {
+        style.fontSize = '20px';
+      } else if (number < 100) {
+        style.fontSize = '10px';
       }
       return style;
     },
@@ -419,7 +419,7 @@ export default {
     right: 0;
     bottom: 0;
     color: #ccc;
-    font-size: 12px;
+    font-size: 16px;
   }
   .bounce-enter-active {
     animation: bounce-in 1.5s;

@@ -58,7 +58,7 @@
             type="number"
             :clearable="true"
             :min="1"
-            :max="remain ? remain : 100"
+            :max="30"
             :step="1"
           ></el-input>
         </el-form-item>
@@ -86,10 +86,10 @@
       <el-input
         type="textarea"
         :rows="10"
-        placeholder="请输入对应的号码和名单(可直接从excel复制)，格式(号码 名字)，导入的名单将代替号码显示在抽奖中。如：
-1 张三
-2 李四
-3 王五
+        placeholder="请输入对应的号码和名单(可直接从excel复制)，格式(序号 员工号 名字)，导入的名单将代替号码显示在抽奖中。如：
+1 SESA341000 张三
+2 SESA341001 李四
+3 SESA341002 王五
 				"
         v-model="listStr"
       ></el-input>
@@ -202,7 +202,7 @@ export default {
   watch: {
     showRemoveoptions(v) {
       if (!v) {
-        this.removeInfo.type = 0;
+        this.removeInfo.type = 3;
       }
     }
   },
@@ -274,6 +274,9 @@ export default {
         if (this.form.qty > this.remain) {
           return this.$message.error('本次抽奖人数已超过本奖项的剩余人数');
         }
+        if (this.form.qty > 30) {
+          return this.$message.error('单次抽奖人数不可超过30人');
+        }
       }
       if (this.form.mode === 1 || this.form.mode === 5) {
         if (this.form.mode > this.remain) {
@@ -304,10 +307,12 @@ export default {
           const rowList = item.split(/\t|\s/);
           if (rowList.length >= 2) {
             const key = Number(rowList[0].trim());
-            const name = rowList[1].trim();
+            const sesaid = rowList[1].trim();
+            const name = rowList[2].trim();
             key &&
               list.push({
                 key,
+                sesaid,
                 name
               });
           }

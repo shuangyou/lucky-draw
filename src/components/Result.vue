@@ -2,7 +2,7 @@
   <el-dialog
     :visible="visible"
     @close="$emit('update:visible', false)"
-    width="600px"
+    width="800px"
     class="c-Result"
     :append-to-body="true"
   >
@@ -37,7 +37,14 @@
           :key="j"
           :data-res="data"
         >
-          {{ data }}
+         <span
+            v-if="!!listPeople.find(d => d.key === data)"
+          >
+            {{ listPeople.find(d => d.key === data).name }}
+          </span>
+          <span v-else>
+            {{ data }}
+          </span>
         </span>
       </span>
     </div>
@@ -58,6 +65,9 @@ export default {
       set(val) {
         this.$store.commit('setResult', val);
       }
+    },
+    listPeople() {
+      return this.$store.state.list;
     },
     resultList() {
       const list = [];
@@ -127,7 +137,7 @@ export default {
     }
     .card {
       display: inline-block;
-      width: 40px;
+      width: 120px;
       height: 40px;
       line-height: 40px;
       text-align: center;
